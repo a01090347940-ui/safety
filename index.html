@@ -3,202 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>다산고 과학실 시약 안전 시스템</title>
+    <title>DASAN Science Safety</title>
     <style>
-        :root { --danger: #e74c3c; --warning: #f39c12; --info: #3498db; --success: #27ae60; --dark: #2c3e50; --light: #f8f9fa; }
-        body { font-family: 'Apple SD Gothic Neo', sans-serif; margin: 0; background: #ebedef; color: #333; -webkit-tap-highlight-color: transparent; }
-        header { background: var(--dark); color: white; text-align: center; padding: 1.2rem; sticky: top; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .search-container { padding: 15px; background: white; text-align: center; border-bottom: 1px solid #ddd; }
-        #searchInput { width: 90%; max-width: 500px; padding: 12px 20px; border: 2px solid var(--dark); border-radius: 25px; font-size: 1rem; outline: none; }
-        .container { padding: 10px; max-width: 800px; margin: auto; }
-        .category-title { margin: 20px 10px 10px; font-size: 1rem; font-weight: bold; color: var(--dark); border-left: 4px solid var(--dark); padding-left: 10px; }
+        :root { --main-bg: #ffffff; --point-color: #2c3e50; --danger: #e74c3c; --accent: #f1c40f; }
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; margin: 0; background: #f9f9f9; color: #333; }
         
-        /* 시약 아이템 스타일 */
-        .reagent-item { background: white; border-radius: 8px; margin-bottom: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .reagent-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
-        .reagent-header:active { background: #f0f0f0; }
-        .reagent-name { font-weight: bold; font-size: 1rem; }
-        .reagent-status { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; color: white; }
+        /* 쇼핑몰 스타일 상단 네비게이션 */
+        header { background: var(--main-bg); border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
+        .logo { text-align: center; padding: 15px; font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; border-bottom: 1px solid #f0f0f0; }
+        nav { display: flex; justify-content: space-around; padding: 12px 5px; font-size: 0.85rem; font-weight: bold; overflow-x: auto; white-space: nowrap; }
+        nav div { padding: 5px 10px; cursor: pointer; color: #666; transition: 0.3s; }
+        nav div:hover { color: var(--point-color); border-bottom: 2px solid var(--point-color); }
+
+        /* 검색창 */
+        .search-area { padding: 15px; background: #fff; }
+        #searchInput { width: 94%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; outline: none; display: block; margin: 0 auto; }
+
+        /* 시약 리스트 (쇼핑몰 상품 나열 스타일) */
+        .container { padding: 15px; max-width: 800px; margin: auto; }
+        .reagent-item { background: #fff; border: 1px solid #eee; margin-bottom: 10px; transition: 0.3s; }
+        .reagent-header { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .name-tag { font-weight: bold; font-size: 1rem; }
+        .status-badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; color: #fff; text-transform: uppercase; }
         
-        /* 상세 내용 (숨겨짐) */
-        .reagent-details { display: none; padding: 15px; background: #fafafa; border-top: 1px id #eee; font-size: 0.9rem; border-left: 4px solid var(--info); }
-        .reagent-details.active { display: block; animation: slideDown 0.3s ease-out; }
+        /* 상세 정보 섹션 (누르면 나옴) */
+        .reagent-details { display: none; padding: 20px; background: #fafafa; border-top: 1px solid #f0f0f0; line-height: 1.7; font-size: 0.9rem; }
+        .reagent-details.active { display: block; animation: fadeIn 0.4s; }
+        
+        .detail-row { margin-bottom: 10px; }
+        .detail-label { display: inline-block; width: 120px; font-weight: bold; color: var(--point-color); }
+        .detail-content { color: #555; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        footer { text-align: center; padding: 40px; font-size: 0.75rem; color: #999; }
         
         /* 등급별 색상 */
-        .status-danger { background: var(--danger); }
-        .status-warning { background: var(--warning); }
-        .status-normal { background: var(--success); }
-        .status-etc { background: var(--info); }
-
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .emergency-btn { display: block; margin: 20px 10px; background: var(--danger); color: white; text-align: center; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: bold; }
-        footer { text-align: center; padding: 30px; color: #888; font-size: 0.8rem; }
+        .bg-red { background: var(--danger); }
+        .bg-yellow { background: var(--accent); color: #000; }
+        .bg-gray { background: #95a5a6; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>🧪 시약 안전 통합 DB</h1>
-    <p>다산고 과학실 전수 조사 데이터</p>
+    <div class="logo">DASAN SAFETY 6V</div>
+    <nav>
+        <div onclick="filterCategory('all')">전체보기</div>
+        <div onclick="filterCategory('list')">보유 리스트</div>
+        <div onclick="filterCategory('danger')">위험 등급</div>
+        <div onclick="filterCategory('theory')">반응 원리</div>
+        <div onclick="filterCategory('body')">신체 변화</div>
+    </nav>
 </header>
 
-<div class="search-container">
-    <input type="text" id="searchInput" onkeyup="filterReagents()" placeholder="찾으시는 시약 이름을 입력하세요">
+<div class="search-area">
+    <input type="text" id="searchInput" onkeyup="searchReagent()" placeholder="시약명을 검색해 주세요.">
 </div>
 
-<div class="container">
-    <a href="tel:119" class="emergency-btn">🚨 긴급 상황 119 연결</a>
-
-    <div id="reagentContainer">
-        <div class="category-title">강산 / 강염기 (부식성 주의)</div>
-        <div class="reagent-item danger">
-            <div class="reagent-header" onclick="toggleDetail(this)">
-                <span class="reagent-name">염산 (35%, 9%, 5%)</span>
-                <span class="reagent-status status-danger">위험</span>
-            </div>
-            <div class="reagent-details">
-                <p><strong>위험성:</strong> 강한 부식성. 피부 접촉 시 화상, 증기 흡입 시 호흡기 손상.</p>
-                <p><strong>대응:</strong> 즉시 흐르는 물로 15분 이상 세척. 환기 필수.</p>
-            </div>
+<div class="container" id="reagentList">
+    <div class="reagent-item" data-category="danger body">
+        <div class="reagent-header" onclick="toggleDetail(this)">
+            <span class="name-tag">염산 (Hydrochloric Acid) 35%</span>
+            <span class="status-badge bg-red">위험성 높음</span>
         </div>
-
-        <div class="reagent-item danger">
-            <div class="reagent-header" onclick="toggleDetail(this)">
-                <span class="reagent-name">황산 (H₂SO₄)</span>
-                <span class="reagent-status status-danger">위험</span>
-            </div>
-            <div class="reagent-details">
-                <p><strong>위험성:</strong> 매우 강한 부식성 및 탈수 작용. 물과 반응 시 폭발적 발열.</p>
-                <p><strong>대응:</strong> 피부 접촉 시 마른 헝겊으로 먼저 닦아낸 후 대량의 물로 세척.</p>
-            </div>
+        <div class="reagent-details">
+            <div class="detail-row"><span class="detail-label">📍 보관 위치:</span><span class="detail-content">시약장 4번</span></div>
+            <div class="detail-row"><span class="detail-label">🧬 반응 원리:</span><span class="detail-content">강한 산성으로 금속과 반응하여 수소 발생</span></div>
+            <div class="detail-row"><span class="detail-label">⚠️ 신체 변화:</span><span class="detail-content">피부 화상, 증기 흡입 시 호흡기 손상</span></div>
+            <div class="detail-row"><span class="detail-label">🚨 응급 조치:</span><span class="detail-content">흐르는 물에 15분 이상 세척</span></div>
         </div>
-
-        <div class="reagent-item danger">
-            <div class="reagent-header" onclick="toggleDetail(this)">
-                <span class="reagent-name">수산화나트륨(소듐)</span>
-                <span class="reagent-status status-danger">위험</span>
-            </div>
-            <div class="reagent-details">
-                <p><strong>위험성:</strong> 강염기성. 단백질을 녹이는 성질이 있어 눈/피부에 치명적.</p>
-                <p><strong>대응:</strong> 미끈거림이 사라질 때까지 식초(약산)나 물로 충분히 세척.</p>
-            </div>
-        </div>
-
-        <div class="category-title">위험물 / 인화성</div>
-        <div class="reagent-item danger">
-            <div class="reagent-header" onclick="toggleDetail(this)">
-                <span class="reagent-name">나트륨 금속</span>
-                <span class="reagent-status status-danger">폭발위험</span>
-            </div>
-            <div class="reagent-details">
-                <p><strong>위험성:</strong> 물과 접촉 시 격렬히 반응하며 수소 가스 발생 및 폭발.</p>
-                <p><strong>대응:</strong> 물 접촉 절대 금지. 금속 화재용 소화기나 마른 모래 사용.</p>
-            </div>
-        </div>
-
-        <div class="reagent-item danger">
-            <div class="reagent-header" onclick="toggleDetail(this)">
-                <span class="reagent-name">붉은 인 (Red Phosphorus)</span>
-                <span class="reagent-status status-danger">인화성</span>
-            </div>
-            <div class="reagent-details">
-                <p><strong>위험성:</strong> 마찰, 충격, 열에 의해 쉽게 발화. 유독성 가스 발생.</p>
-                <p><strong>대응:</strong> 화기 엄금. 직사광선을 피해 서늘한 곳 보관.</p>
-            </div>
-        </div>
-
-        <div class="category-title">주요 화합물 및 염류</div>
-        
-        <script>
-            const reagents = [
-                {n: "염화칼슘", s: "normal", d: "제설제 성분. 습기 제거 능력이 강하며 피부 건조 유발."},
-                {n: "제1 인산칼륨", s: "normal", d: "완충 용액 제조용. 비교적 안전하나 섭취 금지."},
-                {n: "염화나트륨(소듐)", s: "normal", d: "식염 성분. 대량 섭취 시 신장 무리. 실험용은 불순물 주의."},
-                {n: "차아염소산나트륨", s: "warning", d: "락스 성분. 산성 세제와 혼합 시 유독가스 발생."},
-                {n: "염화철(III)", s: "warning", d: "부식성 고체. 금속 부식 및 피부 자극 주의."},
-                {n: "질산은", s: "danger", d: "단백질 부식 및 변색. 중금속 폐기물로 별도 처리."},
-                {n: "질산납", s: "danger", d: "맹독성 중금속. 흡입 및 피부 접촉 엄금."},
-                {n: "탄산나트륨 / 탄산수소나트륨", s: "normal", d: "염기성 분말. 산 중화용으로 사용."},
-                {n: "석고가루 / 탄산칼슘", s: "normal", d: "흡입 시 호흡기 자극. 분진 마스크 착용 권장."},
-                {n: "수소화붕소나트륨", s: "danger", d: "강력한 환원제. 물과 반응 시 가연성 가스 발생."},
-                {n: "이산화망간", s: "warning", d: "과산화수소 분해 촉매. 분진 흡입 주의."},
-                {n: "황산구리", s: "warning", d: "수생생물 독성. 파란색 결정, 절대 섭취 금지."},
-                {n: "암모니아수", s: "danger", d: "강한 자극성 냄새. 눈과 호흡기에 심한 자극."},
-                {n: "과산화수소", s: "warning", d: "강력한 산화제. 피부 흰색 변색 및 화상 유발."},
-                {n: "디클로로메탄 / 헥산", s: "danger", d: "휘발성 유기용제. 흡입 시 중추신경계 마비 위험."},
-                {n: "아세톤 / 에틸아세테이트", s: "danger", d: "인화성 액체. 증기가 멀리 이동하여 인화 가능."},
-                {n: "붕산", s: "warning", d: "생식 독성 우려. 대량 노출 시 위험."},
-                {n: "아이오딘용액", s: "warning", d: "녹말 검출용. 착색 주의 및 섭취 금지."}
-                // ... 더 많은 시약들이 아래 loop로 추가됩니다.
-            ];
-
-            // 나머지 시약들 자동 생성
-            const otherNames = ["질산칼륨", "질산아연", "질산구리 수용액", "질산알루미늄", "철가루", "숯가루", "황산칼슘", "황산마그네슘", "황산아연", "설파믹산", "과황산칼륨", "페로시안화칼륨", "TBE buffer", "EDTA Solution", "Resorcinol", "아드레날린", "크리스탈바이올렛", "아밀라아제", "전개액", "인디고카민", "아세트카민", "베네딕트", "BTB", "메틸오렌지", "구연산", "글리세롤", "아세틸살리실산"];
-            
-            const container = document.currentScript.parentElement;
-            reagents.forEach(r => {
-                const item = document.createElement('div');
-                item.className = 'reagent-item';
-                item.innerHTML = `
-                    <div class="reagent-header" onclick="toggleDetail(this)">
-                        <span class="reagent-name">${r.n}</span>
-                        <span class="reagent-status status-${r.s}">${r.s === 'danger' ? '위험' : r.s === 'warning' ? '주의' : '보통'}</span>
-                    </div>
-                    <div class="reagent-details">
-                        <p><strong>상세 정보:</strong> ${r.d}</p>
-                        <p><strong>주의:</strong> 실험복과 보호장갑을 반드시 착용하세요.</p>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-
-            otherNames.forEach(name => {
-                const item = document.createElement('div');
-                item.className = 'reagent-item';
-                item.innerHTML = `
-                    <div class="reagent-header" onclick="toggleDetail(this)">
-                        <span class="reagent-name">${name}</span>
-                        <span class="reagent-status status-etc">기타</span>
-                    </div>
-                    <div class="reagent-details">
-                        <p><strong>정보:</strong> 학교 리스트에 포함된 시약입니다. MSDS를 확인하세요.</p>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        </script>
     </div>
+
+    <div class="reagent-item" data-category="danger theory">
+        <div class="reagent-header" onclick="toggleDetail(this)">
+            <span class="name-tag">나트륨 금속 (Sodium)</span>
+            <span class="status-badge bg-red">폭발성</span>
+        </div>
+        <div class="reagent-details">
+            <div class="detail-row"><span class="detail-label">📍 보관 위치:</span><span class="detail-content">시약장 1번</span></div>
+            <div class="detail-row"><span class="detail-label">🧬 반응 원리:</span><span class="detail-content">물과 격렬히 반응하여 수소 가스 및 열 발생</span></div>
+            <div class="detail-row"><span class="detail-label">⚠️ 신체 변화:</span><span class="detail-content">강한 알칼리 화상 유발</span></div>
+            <div class="detail-row"><span class="detail-label">🚨 응급 조치:</span><span class="detail-content">물 접촉 금지, 마른 모래로 진압</span></div>
+        </div>
+    </div>
+
+    <div class="reagent-item" data-category="list theory">
+        <div class="reagent-header" onclick="toggleDetail(this)">
+            <span class="name-tag">황산구리 (Copper Sulfate)</span>
+            <span class="status-badge bg-yellow">주의</span>
+        </div>
+        <div class="reagent-details">
+            <div class="detail-row"><span class="detail-label">📍 보관 위치:</span><span class="detail-content">시약장 1번</span></div>
+            <div class="detail-row"><span class="detail-label">🧬 반응 원리:</span><span class="detail-content">가열 시 수화물이 무수물로 변하며 색 변화</span></div>
+            <div class="detail-row"><span class="detail-label">⚠️ 신체 변화:</span><span class="detail-content">섭취 시 구토 및 복통 유발</span></div>
+        </div>
+    </div>
+
+    <div class="reagent-item" data-category="list theory">
+        <div class="reagent-header" onclick="toggleDetail(this)">
+            <span class="name-tag">BTB 용액</span>
+            <span class="status-badge bg-gray">보통</span>
+        </div>
+        <div class="reagent-details">
+            <div class="detail-row"><span class="detail-label">🧬 반응 원리:</span><span class="detail-content">pH에 따라 노랑(산), 초록(중), 파랑(염기) 변화</span></div>
+            <div class="detail-row"><span class="detail-label">⚠️ 신체 변화:</span><span class="detail-content">피부 자극이 적으나 눈 접촉 주의</span></div>
+        </div>
+    </div>
+
 </div>
 
 <footer>
-    <p>남양주 다산고등학교 2학년 과학실 안전 프로젝트<br>대상 시약: 100종 이상 전수 포함</p>
+    <p>NAMYANGJU DASAN HIGH SCHOOL<br>CHEMISTRY CLUB SAFETY PROJECT</p>
 </footer>
 
 <script>
+    // 상세 정보 펼치기 함수
     function toggleDetail(header) {
         const details = header.nextElementSibling;
-        const isActive = details.classList.contains('active');
-        
-        // 다른 열려있는 것 닫기 (선택사항)
-        // document.querySelectorAll('.reagent-details').forEach(d => d.classList.remove('active'));
-        
-        if (!isActive) {
-            details.classList.add('active');
-        } else {
-            details.classList.remove('active');
+        details.classList.toggle('active');
+    }
+
+    // 검색 기능
+    function searchReagent() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let items = document.getElementsByClassName('reagent-item');
+        for (let i = 0; i < items.length; i++) {
+            let text = items[i].innerText.toLowerCase();
+            items[i].style.display = text.includes(input) ? "" : "none";
         }
     }
 
-    function filterReagents() {
-        let input = document.getElementById('searchInput').value.toLowerCase();
+    // 카테고리 필터링 (상단 메뉴 클릭 시)
+    function filterCategory(cat) {
         let items = document.getElementsByClassName('reagent-item');
-        
         for (let i = 0; i < items.length; i++) {
-            let name = items[i].querySelector('.reagent-name').innerText.toLowerCase();
-            if (name.includes(input)) {
+            if (cat === 'all') {
                 items[i].style.display = "";
             } else {
-                items[i].style.display = "none";
+                let categories = items[i].getAttribute('data-category');
+                items[i].style.display = categories.includes(cat) ? "" : "none";
             }
         }
     }
