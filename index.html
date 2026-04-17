@@ -3,43 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>과학실 안전 사고 예방 가이드</title>
+    <title>다산고 과학실 시약 안전 시스템</title>
     <style>
-        body { font-family: 'Apple SD Gothic Neo', sans-serif; line-height: 1.6; margin: 0; padding: 0; background: #f4f7f6; }
-        header { background: #e74c3c; color: white; text-align: center; padding: 1rem; }
-        .container { padding: 20px; max-width: 600px; margin: auto; }
-        .card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { color: #c0392b; border-bottom: 2px solid #e74c3c; padding-bottom: 5px; }
-        .emergency { color: red; font-weight: bold; }
-        footer { text-align: center; font-size: 0.8rem; color: #888; margin-top: 20px; }
+        :root { --danger: #e74c3c; --warning: #f39c12; --info: #3498db; --dark: #2c3e50; }
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; margin: 0; background: #f8f9fa; line-height: 1.6; }
+        header { background: var(--dark); color: white; text-align: center; padding: 1.5rem; }
+        .search-box { padding: 20px; text-align: center; background: white; sticky: top; }
+        #searchInput { width: 80%; padding: 12px; border: 2px solid var(--dark); border-radius: 25px; outline: none; }
+        .container { padding: 15px; max-width: 800px; margin: auto; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 6px solid var(--info); }
+        .danger-card { border-left-color: var(--danger); }
+        .warning-card { border-left-color: var(--warning); }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; color: white; margin-bottom: 5px; }
+        .bg-danger { background: var(--danger); }
+        .bg-warning { background: var(--warning); }
+        .emergency-btn { display: block; width: 100%; padding: 15px; background: var(--danger); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 20px; }
+        footer { text-align: center; padding: 30px; color: #888; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>🧪 과학실 안전 가이드</h1>
-    </header>
-    <div class="container">
-        <div class="card">
-            <h2>🚨 화학물질이 눈/피부에 닿았을 때</h2>
-            <p>1. 즉시 흐르는 물에 15분 이상 씻어냅니다.</p>
-            <p>2. 문지르지 말고 물의 수압으로 씻어내야 합니다.</p>
-            <p class="emergency">3. 즉시 선생님께 보고 후 보건실로 이동하세요.</p>
-        </div>
 
-        <div class="card">
-            <h2>🔥 화재 발생 시</h2>
-            <p>1. "불이야!"라고 크게 외쳐 주변에 알립니다.</p>
-            <p>2. 알코올 램프 화재 시 뚜껑을 덮거나 젖은 걸레를 이용합니다.</p>
-        </div>
+<header>
+    <h1>🧪 실시간 시약 안전 가이드</h1>
+    <p>우리 학교 과학실 시약의 위험성을 확인하세요</p>
+</header>
 
-        <div class="card">
-            <h2>🏥 비상 연락처</h2>
-            <p>교무실: 031-XXX-XXXX</p>
-            <p>보건실: 031-XXX-XXXX</p>
-        </div>
+<div class="search-box">
+    <input type="text" id="searchInput" onkeyup="filterReagents()" placeholder="시약 이름을 검색하세요 (예: 염산, 나트륨)">
+</div>
+
+<div class="container" id="reagentList">
+    <div class="card danger-card reagent-item">
+        <span class="badge bg-danger">금속화재주의</span>
+        <h3>나트륨 금속 (Na)</h3>
+        <p><strong>위험성:</strong> 물과 반응하여 가연성 수소 가스를 발생시키며 폭발 위험이 매우 큼.</p>
+        <p><strong>대응:</strong> 절대로 물을 뿌리지 말 것. 마른 모래로 덮어 소화.</p>
     </div>
-    <footer>
-        <p>© 2026 학생 주도 봉사 프로젝트 - 과학 안전 지킴이</p>
-    </footer>
+
+    <div class="card danger-card reagent-item">
+        <span class="badge bg-danger">부식성/독성</span>
+        <h3>염산 (HCl, 35%)</h3>
+        <p><strong>위험성:</strong> 강산성 물질로 피부와 눈에 심한 화상 유발. 증기 흡입 시 호흡기 손상.</p>
+        <p><strong>대응:</strong> 다량의 흐르는 물로 15분 이상 세척. 보안경/장갑 필수.</p>
+    </div>
+
+    <div class="card danger-card reagent-item">
+        <span class="badge bg-danger">강한부식/탈수</span>
+        <h3>황산 (H2SO4)</h3>
+        <p><strong>위험성:</strong> 물과 반응 시 격렬한 열 발생. 유기물을 검게 태우는 탈수 작용.</p>
+        <p><strong>대응:</strong> 피부 접촉 시 즉시 마른 헝겊으로 닦아낸 후 흐르는 물로 세척.</p>
+    </div>
+
+    <div class="card warning-card reagent-item">
+        <span class="badge bg-warning">산화성/피부변색</span>
+        <h3>질산은 (AgNO3)</h3>
+        <p><strong>위험성:</strong> 산화성 고체. 피부 접촉 시 검게 변색됨(단백질 부식).</p>
+        <p><strong>대응:</strong> 빛에 민감하므로 갈색 병 보관 확인. 접촉 시 즉시 세척.</p>
+    </div>
+
+    <div class="card warning-card reagent-item">
+        <span class="badge bg-warning">강산화제</span>
+        <h3>과망간산칼륨 (KMnO4)</h3>
+        <p><strong>위험성:</strong> 가연성 물질과 혼합 시 폭발적 반응. 진한 보라색 오염 주의.</p>
+        <p><strong>대응:</strong> 유기물(종이, 기름)과 분리 보관.</p>
+    </div>
+
+    <div class="card danger-card reagent-item">
+        <span class="badge bg-danger">강염기</span>
+        <h3>수산화나트륨 (NaOH)</h3>
+        <p><strong>위험성:</strong> 단백질을 녹이는 성질. 눈에 들어갈 경우 실명 위험 매우 높음.</p>
+        <p><strong>대응:</strong> 미끈거림이 사라질 때까지 충분히 씻어낼 것.</p>
+    </div>
+</div>
+
+<div class="container">
+    <a href="tel:119" class="emergency-btn">🚨 긴급 상황 119 연결</a>
+</div>
+
+<footer>
+    <p>남양주 다산고등학교 학생 주도 봉사 프로젝트<br>제작: 2학년 과학 지킴이 팀</p>
+</footer>
+
+<script>
+function filterReagents() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let items = document.getElementsByClassName('reagent-item');
+    
+    for (let i = 0; i < items.length; i++) {
+        let name = items[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+        if (name.includes(input)) {
+            items[i].style.display = "";
+        } else {
+            items[i].style.display = "none";
+        }
+    }
+}
+</script>
+
 </body>
 </html>
