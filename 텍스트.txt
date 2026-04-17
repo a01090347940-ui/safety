@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과학실 안전 사고 예방 가이드</title>
+    <style>
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; line-height: 1.6; margin: 0; padding: 0; background: #f4f7f6; }
+        header { background: #e74c3c; color: white; text-align: center; padding: 1rem; }
+        .container { padding: 20px; max-width: 600px; margin: auto; }
+        .card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { color: #c0392b; border-bottom: 2px solid #e74c3c; padding-bottom: 5px; }
+        .emergency { color: red; font-weight: bold; }
+        footer { text-align: center; font-size: 0.8rem; color: #888; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🧪 과학실 안전 가이드</h1>
+    </header>
+    <div class="container">
+        <div class="card">
+            <h2>🚨 화학물질이 눈/피부에 닿았을 때</h2>
+            <p>1. 즉시 흐르는 물에 15분 이상 씻어냅니다.</p>
+            <p>2. 문지르지 말고 물의 수압으로 씻어내야 합니다.</p>
+            <p class="emergency">3. 즉시 선생님께 보고 후 보건실로 이동하세요.</p>
+        </div>
+
+        <div class="card">
+            <h2>🔥 화재 발생 시</h2>
+            <p>1. "불이야!"라고 크게 외쳐 주변에 알립니다.</p>
+            <p>2. 알코올 램프 화재 시 뚜껑을 덮거나 젖은 걸레를 이용합니다.</p>
+        </div>
+
+        <div class="card">
+            <h2>🏥 비상 연락처</h2>
+            <p>교무실: 031-XXX-XXXX</p>
+            <p>보건실: 031-XXX-XXXX</p>
+        </div>
+    </div>
+    <footer>
+        <p>© 2026 학생 주도 봉사 프로젝트 - 과학 안전 지킴이</p>
+    </footer>
+</body>
+</html>
